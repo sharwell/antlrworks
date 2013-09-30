@@ -31,6 +31,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.antlr.xjlib.appkit.app;
 
+import org.antlr.xjlib.appkit.app.MacOS.XJApplicationMacOS;
+import org.antlr.xjlib.appkit.document.XJData;
 import org.antlr.xjlib.appkit.document.XJDocument;
 import org.antlr.xjlib.appkit.document.XJDocumentFactory;
 import org.antlr.xjlib.appkit.frame.XJFrame;
@@ -101,7 +103,7 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
         if(shared == null) {
             if(XJSystem.isMacOS()) {
                 try {
-                    shared = (XJApplication)Class.forName("org.antlr.xjlib.appkit.app.MacOS.XJApplicationMacOS").newInstance();
+                    shared = new XJApplicationMacOS();
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.err.println("XJApplication: cannot instanciate the MacOS application ("+e+")");
@@ -258,7 +260,7 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
     public void displayPrefs() {
         if(prefs == null) {
             try {
-                prefs = (XJPanel)delegate.appPreferencesPanelClass().newInstance();
+                prefs = delegate.appPreferencesPanelClass().newInstance();
                 prefs.setDelegate(this);
                 prefs.awake();
             } catch (Exception e) {
@@ -323,7 +325,7 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
 
     // *** XJDocument
 
-    public static void addDocumentFactory(Class documentClass, Class windowClass, Class dataClass, String ext, String description) {
+    public static void addDocumentFactory(Class<? extends XJDocument> documentClass, Class<? extends XJWindow> windowClass, Class<? extends XJData> dataClass, String ext, String description) {
         addDocumentFactory(new XJDocumentFactory(documentClass, windowClass, dataClass, ext, description));
     }
 
@@ -650,7 +652,7 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
         return useDesktopMode;
     }
 
-    public Class getPreferencesClass() {
+    public Class<?> getPreferencesClass() {
         if(delegate == null)
             return XJApplication.class;
         else

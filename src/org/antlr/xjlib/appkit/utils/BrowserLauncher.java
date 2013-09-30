@@ -71,10 +71,10 @@ public class BrowserLauncher {
 	private static boolean loadedWithoutErrors;
 
 	/** The com.apple.mrj.MRJFileUtils class */
-	private static Class mrjFileUtilsClass;
+	private static Class<?> mrjFileUtilsClass;
 
 	/** The com.apple.mrj.MRJOSType class */
-	private static Class mrjOSTypeClass;
+	private static Class<?> mrjOSTypeClass;
 
 	/** The com.apple.MacOS.AEDesc class */
 	private static Class<?> aeDescClass;
@@ -259,18 +259,18 @@ public class BrowserLauncher {
 			case MRJ_2_0:
 				try {
 					Class<?> aeTargetClass = Class.forName("com.apple.MacOS.AETarget");
-					Class osUtilsClass = Class.forName("com.apple.MacOS.OSUtils");
+					Class<?> osUtilsClass = Class.forName("com.apple.MacOS.OSUtils");
 					Class<?> appleEventClass = Class.forName("com.apple.MacOS.AppleEvent");
-					Class aeClass = Class.forName("com.apple.MacOS.ae");
+					Class<?> aeClass = Class.forName("com.apple.MacOS.ae");
 					aeDescClass = Class.forName("com.apple.MacOS.AEDesc");
 
-					aeTargetConstructor = aeTargetClass.getDeclaredConstructor(new Class [] { int.class });
-					appleEventConstructor = appleEventClass.getDeclaredConstructor(new Class[] { int.class, int.class, aeTargetClass, int.class, int.class });
-					aeDescConstructor = aeDescClass.getDeclaredConstructor(new Class[] { String.class });
+					aeTargetConstructor = aeTargetClass.getDeclaredConstructor(int.class);
+					appleEventConstructor = appleEventClass.getDeclaredConstructor(int.class, int.class, aeTargetClass, int.class, int.class);
+					aeDescConstructor = aeDescClass.getDeclaredConstructor(String.class);
 
-					makeOSType = osUtilsClass.getDeclaredMethod("makeOSType", new Class [] { String.class });
-					putParameter = appleEventClass.getDeclaredMethod("putParameter", new Class[] { int.class, aeDescClass });
-					sendNoReply = appleEventClass.getDeclaredMethod("sendNoReply", new Class[] { });
+					makeOSType = osUtilsClass.getDeclaredMethod("makeOSType", String.class);
+					putParameter = appleEventClass.getDeclaredMethod("putParameter", int.class, aeDescClass);
+					sendNoReply = appleEventClass.getDeclaredMethod("sendNoReply");
 
 					Field keyDirectObjectField = aeClass.getDeclaredField("keyDirectObject");
 					keyDirectObject = (Integer) keyDirectObjectField.get(null);
@@ -298,9 +298,9 @@ public class BrowserLauncher {
 					mrjOSTypeClass = Class.forName("com.apple.mrj.MRJOSType");
 					Field systemFolderField = mrjFileUtilsClass.getDeclaredField("kSystemFolderType");
 					kSystemFolderType = systemFolderField.get(null);
-					findFolder = mrjFileUtilsClass.getDeclaredMethod("findFolder", new Class[] { mrjOSTypeClass });
-					getFileCreator = mrjFileUtilsClass.getDeclaredMethod("getFileCreator", new Class[] { File.class });
-					getFileType = mrjFileUtilsClass.getDeclaredMethod("getFileType", new Class[] { File.class });
+					findFolder = mrjFileUtilsClass.getDeclaredMethod("findFolder", mrjOSTypeClass);
+					getFileCreator = mrjFileUtilsClass.getDeclaredMethod("getFileCreator", File.class);
+					getFileType = mrjFileUtilsClass.getDeclaredMethod("getFileType", File.class);
 				} catch (ClassNotFoundException cnfe) {
 					errorMessage = cnfe.getMessage();
 					return false;
@@ -321,8 +321,8 @@ public class BrowserLauncher {
 			case MRJ_3_0:
 			    try {
 					Class<?> linker = Class.forName("com.apple.mrj.jdirect.Linker");
-					Constructor<?> constructor = linker.getConstructor(new Class[]{ Class.class });
-					linkage = constructor.newInstance(new Object[] { BrowserLauncher.class });
+					Constructor<?> constructor = linker.getConstructor(Class.class);
+					linkage = constructor.newInstance(BrowserLauncher.class);
 				} catch (ClassNotFoundException cnfe) {
 					errorMessage = cnfe.getMessage();
 					return false;
@@ -343,7 +343,7 @@ public class BrowserLauncher {
 			case MRJ_3_1:
 				try {
 					mrjFileUtilsClass = Class.forName("com.apple.mrj.MRJFileUtils");
-					openURL = mrjFileUtilsClass.getDeclaredMethod("openURL", new Class[] { String.class });
+					openURL = mrjFileUtilsClass.getDeclaredMethod("openURL", String.class);
 				} catch (ClassNotFoundException cnfe) {
 					errorMessage = cnfe.getMessage();
 					return false;
@@ -374,10 +374,10 @@ public class BrowserLauncher {
 		switch (jvm) {
 			case MRJ_2_0:
 				try {
-					Integer finderCreatorCode = (Integer) makeOSType.invoke(null, new Object[] { FINDER_CREATOR });
-					Object aeTarget = aeTargetConstructor.newInstance(new Object[] { finderCreatorCode });
-					Integer gurlType = (Integer) makeOSType.invoke(null, new Object[] { GURL_EVENT });
-					Object appleEvent = appleEventConstructor.newInstance(new Object[] { gurlType, gurlType, aeTarget, kAutoGenerateReturnID, kAnyTransactionID });
+					Integer finderCreatorCode = (Integer) makeOSType.invoke(null, FINDER_CREATOR);
+					Object aeTarget = aeTargetConstructor.newInstance(finderCreatorCode);
+					Integer gurlType = (Integer) makeOSType.invoke(null, GURL_EVENT);
+					Object appleEvent = appleEventConstructor.newInstance(gurlType, gurlType, aeTarget, kAutoGenerateReturnID, kAnyTransactionID);
 					// Don't set browser = appleEvent because then the next time we call
 					// locateBrowser(), we'll get the same AppleEvent, to which we'll already have
 					// added the relevant parameter. Instead, regenerate the AppleEvent every time.
@@ -400,7 +400,7 @@ public class BrowserLauncher {
 			case MRJ_2_1:
 				File systemFolder;
 				try {
-					systemFolder = (File) findFolder.invoke(null, new Object[] { kSystemFolderType });
+					systemFolder = (File) findFolder.invoke(null, kSystemFolderType);
 				} catch (IllegalArgumentException iare) {
 					browser = null;
 					errorMessage = iare.getMessage();
@@ -427,9 +427,9 @@ public class BrowserLauncher {
 						// applications being picked up on certain Mac OS 9 systems,
 						// especially German ones, and sending a GURL event to those
 						// applications results in a logout under Multiple Users.
-						Object fileType = getFileType.invoke(null, new Object[] { file });
+						Object fileType = getFileType.invoke(null, file);
 						if (FINDER_TYPE.equals(fileType.toString())) {
-							Object fileCreator = getFileCreator.invoke(null, new Object[] { file });
+							Object fileCreator = getFileCreator.invoke(null, file);
 							if (FINDER_CREATOR.equals(fileCreator.toString())) {
 								browser = file.toString();	// Actually the Finder, but that's OK
 								return browser;
@@ -488,9 +488,9 @@ public class BrowserLauncher {
 			case MRJ_2_0:
 				Object aeDesc;
 				try {
-					aeDesc = aeDescConstructor.newInstance(new Object[] { url });
-					putParameter.invoke(browser, new Object[] { keyDirectObject, aeDesc });
-					sendNoReply.invoke(browser, new Object[] { });
+					aeDesc = aeDescConstructor.newInstance(url);
+					putParameter.invoke(browser, keyDirectObject, aeDesc);
+					sendNoReply.invoke(browser);
 				} catch (InvocationTargetException ite) {
 					throw new IOException("InvocationTargetException while creating AEDesc: " + ite.getMessage());
 				} catch (IllegalAccessException iae) {
@@ -528,7 +528,7 @@ public class BrowserLauncher {
 				break;
 			case MRJ_3_1:
 				try {
-					openURL.invoke(null, new Object[] { url });
+					openURL.invoke(null, url);
 				} catch (InvocationTargetException ite) {
 					throw new IOException("InvocationTargetException while calling openURL: " + ite.getMessage());
 				} catch (IllegalAccessException iae) {
@@ -574,7 +574,7 @@ public class BrowserLauncher {
         Process process;
         try {
             // First, attempt to open the URL in a currently running session of Netscape
-            process = Runtime.getRuntime().exec(new String[] { (String) browser,
+            process = Runtime.getRuntime().exec(new String[] { browser,
                                                                NETSCAPE_REMOTE_PARAMETER,
                                                                NETSCAPE_OPEN_PARAMETER_START +
                     url +
@@ -582,7 +582,7 @@ public class BrowserLauncher {
             try {
                 int exitCode = process.waitFor();
                 if (exitCode != 0) {	// if Netscape was not open
-                    Runtime.getRuntime().exec(new String[] { (String) browser, url });
+                    Runtime.getRuntime().exec(new String[] { browser, url });
                     exitCode = 0;
                 }
                 success = (exitCode == 0);

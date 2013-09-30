@@ -32,7 +32,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.antlr.xjlib.appkit.app;
 
 import org.antlr.xjlib.appkit.frame.XJPanel;
-import org.antlr.xjlib.appkit.frame.XJDialog;
 import org.antlr.xjlib.appkit.menu.XJMenu;
 import org.antlr.xjlib.appkit.document.XJDocument;
 
@@ -44,12 +43,12 @@ public abstract class XJApplicationDelegate {
     public String appVersionLong() { return null; }
     public void appDidLaunch(String[] args, List<String> documentsToOpenAtStartup) {}
     public void appWillTerminate() {}
-    public Class appPreferencesPanelClass() { return null; }
+    public Class<? extends XJPanel> appPreferencesPanelClass() { return null; }
     public XJPanel appInstanciateAboutPanel() { return null; }
     public void appShowHelp() {}
     public boolean appHasPreferencesMenuItem() { return false; }
     public boolean appShouldQuitAfterLastWindowClosed() { return false; }
-    public Class appPreferencesClass() { return null; }
+    public Class<?> appPreferencesClass() { return null; }
     public boolean supportsPersistence() { return true; }
     public boolean useDesktopMode() { return false; }
     public boolean displayNewDocumentWizard(XJDocument document) { return false; }

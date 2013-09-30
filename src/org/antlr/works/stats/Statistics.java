@@ -87,7 +87,7 @@ public class Statistics extends XJApplicationDelegate implements DialogReportsDe
         return IDE.VERSION;
     }
 
-    public Class appPreferencesClass() {
+    public Class<?> appPreferencesClass() {
         return IDE.class;
     }
 

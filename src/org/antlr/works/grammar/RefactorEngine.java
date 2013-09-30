@@ -74,7 +74,7 @@ public class RefactorEngine {
     public static boolean ignoreScopeForDoubleQuoteLiteral(ATEScope scope) {
         if(scope == null) return false;
 
-        Class c = scope.getClass();
+        Class<? extends ATEScope> c = scope.getClass();
         return c.equals(ElementAction.class) || c.equals(ElementBlock.class) || c.equals(ElementRewriteBlock.class)
                 || c.equals(ElementRewriteFunction.class) || c.equals(ElementArgumentBlock.class);
     }

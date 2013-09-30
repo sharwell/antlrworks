@@ -155,7 +155,7 @@ public class DBEventsPanel extends DetachablePanel {
             return super.getColumnName(column);
         }
 
-        public Class getColumnClass(int columnIndex) {
+        public Class<?> getColumnClass(int columnIndex) {
             switch(columnIndex) {
                 case INFO_COLUMN_COUNT: return String.class;
                 case INFO_COLUMN_EVENT: return String.class;

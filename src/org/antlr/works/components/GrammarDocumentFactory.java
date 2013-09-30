@@ -2,7 +2,9 @@ package org.antlr.works.components;
 
 import org.antlr.works.utils.Localizable;
 import org.antlr.xjlib.appkit.document.XJDataPlainText;
-import org.antlr.xjlib.appkit.document.XJDocumentFactory;/*
+import org.antlr.xjlib.appkit.document.XJDocumentFactory;
+import org.antlr.xjlib.appkit.frame.XJWindow;
+/*
 
 [The "BSD licence"]
 Copyright (c) 2005-07 Jean Bovet
@@ -36,7 +38,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public class GrammarDocumentFactory extends XJDocumentFactory {
 
     // todo provide factory?
-    public GrammarDocumentFactory(Class windowClass) {
+    public GrammarDocumentFactory(Class<? extends XJWindow> windowClass) {
         super(GrammarDocument.class,
                 windowClass,
                 XJDataPlainText.class,

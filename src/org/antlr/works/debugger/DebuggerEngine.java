@@ -225,10 +225,8 @@ public class DebuggerEngine {
                 System.arraycopy(files, 0, args, 2, files.length);
 
                 Class<?> javac = Class.forName("com.sun.tools.javac.Main");
-                Class[] p = new Class[] { String[].class };
-                Method m = javac.getMethod("compile", p);
-                Object[] a = new Object[] { args };
-                Object r = m.invoke(javac.newInstance(), a);
+                Method m = javac.getMethod("compile", String[].class);
+                Object r = m.invoke(javac.newInstance(), (Object)args);
                 result = (Integer) r;
                 //result = com.sun.tools.javac.Main.compile(args);
             }

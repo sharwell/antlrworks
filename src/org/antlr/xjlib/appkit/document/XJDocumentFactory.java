@@ -38,13 +38,13 @@ import java.util.List;
 
 public class XJDocumentFactory {
 
-    private Class documentClass;
-    private Class windowClass;
-    private Class dataClass;
+    private Class<? extends XJDocument> documentClass;
+    private Class<? extends XJWindow> windowClass;
+    private Class<? extends XJData> dataClass;
     private String ext;
     private String description;
 
-    public XJDocumentFactory(Class documentClass, Class windowClass, Class dataClass, String ext, String description) {
+    public XJDocumentFactory(Class<? extends XJDocument> documentClass, Class<? extends XJWindow> windowClass, Class<? extends XJData> dataClass, String ext, String description) {
         this.documentClass = documentClass;
         this.windowClass = windowClass;
         this.dataClass = dataClass;
@@ -65,11 +65,11 @@ public class XJDocumentFactory {
     }
 
     public XJDocument createDocument() throws IllegalAccessException, InstantiationException {
-        XJDocument document = (XJDocument)documentClass.newInstance();
-        document.setDocumentData((XJData)dataClass.newInstance());
+        XJDocument document = documentClass.newInstance();
+        document.setDocumentData(dataClass.newInstance());
         document.setDocumentFileType(getExtensions(), getDescriptionString());
 
-        XJWindow window = (XJWindow)windowClass.newInstance();
+        XJWindow window = windowClass.newInstance();
         window.addDocument(document);
         document.setWindow(window);
 

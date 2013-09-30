@@ -278,7 +278,7 @@ public class IDE extends XJApplicationDelegate implements XJMenuItemDelegate {
     }
 
     public static String getApplicationPath() {
-        Class c = XJApplication.getAppDelegate().getClass();
+        Class<?> c = XJApplication.getAppDelegate().getClass();
         URL url = c.getProtectionDomain().getCodeSource().getLocation();
         String p;
         if(url == null) {
@@ -332,7 +332,7 @@ public class IDE extends XJApplicationDelegate implements XJMenuItemDelegate {
         return p;
     }
 
-    public static void debugVerbose(Console console, Class c, String s) {
+    public static void debugVerbose(Console console, Class<?> c, String s) {
         if(AWPrefs.getDebugVerbose()) {
             String message = c.getName()+": "+s;
             if(console != null)
@@ -398,7 +398,7 @@ public class IDE extends XJApplicationDelegate implements XJMenuItemDelegate {
         StatisticsAW.shared().close();
     }
 
-    public Class appPreferencesPanelClass() {
+    public Class<? extends XJPanel> appPreferencesPanelClass() {
         return AWPrefsDialog.class;
     }
 
@@ -418,7 +418,7 @@ public class IDE extends XJApplicationDelegate implements XJMenuItemDelegate {
         return AWPrefs.getUseDesktopMode();
     }
 
-    public Class appPreferencesClass() {
+    public Class<?> appPreferencesClass() {
         return IDE.class;
     }
 

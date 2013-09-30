@@ -1,7 +1,9 @@
 package org.antlr.works.stringtemplate;
 
 import org.antlr.xjlib.appkit.document.XJDataPlainText;
-import org.antlr.xjlib.appkit.document.XJDocumentFactory;/*
+import org.antlr.xjlib.appkit.document.XJDocumentFactory;
+import org.antlr.xjlib.appkit.frame.XJWindow;
+/*
 
 [The "BSD licence"]
 Copyright (c) 2005-07 Jean Bovet
@@ -35,7 +37,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public class STDocumentFactory extends XJDocumentFactory {
 
     // todo provide factory?
-    public STDocumentFactory(Class windowClass) {
+    public STDocumentFactory(Class<? extends XJWindow> windowClass) {
         super(STDocument.class,
                 windowClass,
                 XJDataPlainText.class,

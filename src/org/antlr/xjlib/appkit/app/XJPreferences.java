@@ -50,7 +50,7 @@ public class XJPreferences {
     protected Preferences prefs = null;
     protected Map<String,EventListener> bindings = new HashMap<String, EventListener>();
 
-    public XJPreferences(Class c) {
+    public XJPreferences(Class<?> c) {
         this.prefs = Preferences.userNodeForPackage(c);
     }
 
