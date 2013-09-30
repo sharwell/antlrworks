@@ -38,7 +38,6 @@ import org.antlr.works.debugger.DebuggerTab;
 import org.antlr.works.debugger.events.*;
 import org.antlr.works.prefs.AWPrefs;
 import org.antlr.works.utils.Console;
-import org.antlr.works.utils.NumberSet;
 import org.antlr.xjlib.appkit.utils.XJAlert;
 import org.antlr.xjlib.appkit.utils.XJDialogProgress;
 import org.antlr.xjlib.appkit.utils.XJDialogProgressDelegate;
@@ -92,7 +91,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
 
     protected List<DBEvent> events;
     protected int position;
-    protected NumberSet breakEvents = new NumberSet();
+    protected Set<Integer> breakEvents = new HashSet<Integer>();
     protected int stoppedOnEvent = DBEvent.NO_EVENT;
     protected boolean ignoreBreakpoints = false;
     protected StepOver stepOver = new StepOver();
@@ -199,11 +198,12 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
         position = events.size()-1;
     }
 
-    public void setBreakEvents(Set events) {
-        this.breakEvents.replaceAll(events);
+    public void setBreakEvents(Set<Integer> events) {
+        this.breakEvents.clear();
+        this.breakEvents.addAll(events);
     }
 
-    public Set getBreakEvents() {
+    public Set<Integer> getBreakEvents() {
         return breakEvents;
     }
 
@@ -303,7 +303,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
             return e.getEventType() == DBEvent.TERMINATE;
     }
 
-    public void stepBackward(Set breakEvents) {
+    public void stepBackward(Set<Integer> breakEvents) {
         setIgnoreBreakpoints(false);
         stepContinue(breakEvents);
         stepMove(-1);
@@ -312,7 +312,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
         playEvents(true);
     }
 
-    public synchronized void stepForward(Set breakEvents) {
+    public synchronized void stepForward(Set<Integer> breakEvents) {
         setIgnoreBreakpoints(false);
         stepContinue(breakEvents);
         if(stepMove(1)) {
@@ -334,7 +334,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
         fastForward();
     }
 
-    public void stepContinue(Set breakEvents) {
+    public void stepContinue(Set<Integer> breakEvents) {
         setBreakEvents(breakEvents);
         queryGrammarBreakpoints();
         setStatus(STATUS_RUNNING);
@@ -374,7 +374,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
 
     public void goToEnd() {
         setIgnoreBreakpoints(true);
-        stepContinue(new NumberSet(DBEvent.TERMINATE));
+        stepContinue(Collections.singleton(DBEvent.TERMINATE));
         if(stepMove(1))
             playEvents(false);
         else
@@ -382,7 +382,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
     }
 
     public void fastForward() {
-        stepForward(new NumberSet(DBEvent.TERMINATE));
+        stepForward(Collections.singleton(DBEvent.TERMINATE));
     }
 
     public void connect(String address, int port) {

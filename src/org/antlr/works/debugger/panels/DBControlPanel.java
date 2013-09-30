@@ -7,7 +7,6 @@ import org.antlr.works.debugger.tivo.DBRecorder;
 import org.antlr.works.prefs.AWPrefs;
 import org.antlr.works.stats.StatisticsAW;
 import org.antlr.works.utils.IconManager;
-import org.antlr.works.utils.NumberSet;
 import org.antlr.works.utils.Toolbar;
 import org.antlr.xjlib.appkit.swing.XJRollOverButton;
 
@@ -15,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.Set;
 /*
 
@@ -229,8 +229,8 @@ public class DBControlPanel extends JPanel {
         return infoLabel;
     }
 
-    public Set getBreakEvent() {
-        NumberSet set = new NumberSet();
+    public Set<Integer> getBreakEvent() {
+        Set<Integer> set = new HashSet<Integer>();
 
         if(breakAllButton.isSelected())
             set.add(DBEvent.ALL);
