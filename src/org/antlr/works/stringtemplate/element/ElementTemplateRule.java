@@ -39,7 +39,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-public class ElementTemplateRule extends ElementTemplateScopable implements Comparable, ATEFoldingEntity {
+public class ElementTemplateRule extends ElementTemplateScopable implements Comparable<ElementTemplateRule>, ATEFoldingEntity {
 
     public String name;
     public ATEToken start;
@@ -117,9 +117,8 @@ public class ElementTemplateRule extends ElementTemplateScopable implements Comp
         return index >= getStartIndex() && index <= getEndIndex();
     }
 
-    public int compareTo(Object o) {
-        ElementTemplateRule otherRule = (ElementTemplateRule) o;
-        return this.name.compareTo(otherRule.name);
+    public int compareTo(ElementTemplateRule o) {
+        return this.name.compareTo(o.name);
     }
 
     public int getUniqueIdentifier() {

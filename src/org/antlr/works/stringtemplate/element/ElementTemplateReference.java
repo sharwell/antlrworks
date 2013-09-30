@@ -32,7 +32,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-public class ElementTemplateReference implements Comparable, Jumpable {
+public class ElementTemplateReference implements Comparable<ElementTemplateReference>, Jumpable {
 
     public ElementTemplateRule rule;
     public ATEToken token;
@@ -54,9 +54,8 @@ public class ElementTemplateReference implements Comparable, Jumpable {
         return token.end;
     }
 
-    public int compareTo(Object o) {
-        ElementTemplateReference otherRef = (ElementTemplateReference)o;
-        return token.compareTo(otherRef.token);
+    public int compareTo(ElementTemplateReference o) {
+        return token.compareTo(o.token);
     }
 
     public boolean containsIndex(int index) {

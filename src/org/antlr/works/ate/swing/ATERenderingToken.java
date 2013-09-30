@@ -37,7 +37,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-public abstract class ATERenderingToken implements Comparable {
+public abstract class ATERenderingToken implements Comparable<ATERenderingToken> {
 
     protected int index;
 
@@ -52,11 +52,10 @@ public abstract class ATERenderingToken implements Comparable {
     public abstract void drawToken(ATERenderingView view, ATERenderingToken t, Graphics g, FontMetrics metrics,
                           int x, int y, char c, Document doc, AttributeSet attribute, Segment text) throws BadLocationException;
     
-    public int compareTo(Object o) {
-        if(!(o instanceof ATERenderingToken)) return 0;
-        ATERenderingToken other = (ATERenderingToken) o;
-        if(index > other.index) return 1;
-        if(index < other.index) return -1;
+    public int compareTo(ATERenderingToken o) {
+        if(o == null) return 1;
+        if(index > o.index) return 1;
+        if(index < o.index) return -1;
         return 0;
     }
 }

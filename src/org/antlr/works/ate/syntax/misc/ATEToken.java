@@ -31,7 +31,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.antlr.works.ate.syntax.misc;
 
-public class ATEToken implements Comparable {
+public class ATEToken implements Comparable<ATEToken> {
 
     public int type;
 
@@ -112,13 +112,12 @@ public class ATEToken implements Comparable {
         }
     }
 
-    public int compareTo(Object o) {
-        if(o instanceof ATEToken) {
-            ATEToken otherToken = (ATEToken)o;
-            return this.getAttribute().compareTo(otherToken.getAttribute());
-        } else {
+    public int compareTo(ATEToken o) {
+        if (o == null) {
             return 1;
         }
+
+        return this.getAttribute().compareTo(o.getAttribute());
     }
 
     public String toString() {

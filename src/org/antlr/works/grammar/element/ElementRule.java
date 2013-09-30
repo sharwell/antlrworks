@@ -45,7 +45,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-public class ElementRule extends ElementScopable implements Comparable, EditorPersistentObject, ATEFoldingEntity, ATEGutterItem {
+public class ElementRule extends ElementScopable implements Comparable<ElementRule>, EditorPersistentObject, ATEFoldingEntity, ATEGutterItem {
 
     public String name;
     public ATEToken start;
@@ -337,9 +337,8 @@ public class ElementRule extends ElementScopable implements Comparable, EditorPe
         return index >= getStartIndex() && index <= getEndIndex();
     }
 
-    public int compareTo(Object o) {
-        ElementRule otherRule = (ElementRule) o;
-        return this.name.compareTo(otherRule.name);
+    public int compareTo(ElementRule o) {
+        return this.name.compareTo(o.name);
     }
 
     public int getUniqueIdentifier() {
