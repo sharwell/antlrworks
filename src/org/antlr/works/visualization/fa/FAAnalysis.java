@@ -43,8 +43,8 @@ import java.util.*;
 
 public class FAAnalysis {
 
-    private Set processedStates = new HashSet();
-    private Map stateIncomingTransitionCount = new HashMap();
+    private Set<Object> processedStates = new HashSet<Object>();
+    private Map<Object, Integer> stateIncomingTransitionCount = new HashMap<Object, Integer>();
 
     public FAAnalysis() {
     }
@@ -97,7 +97,7 @@ public class FAAnalysis {
     }
 
     public void addIncomingTransitionToState(Object state) {
-        Integer i = (Integer)stateIncomingTransitionCount.get(state);
+        Integer i = stateIncomingTransitionCount.get(state);
         int count = 0;
         if(i != null)
             count = i.intValue();
@@ -105,7 +105,7 @@ public class FAAnalysis {
     }
 
     public int numberOfIncomingTransition(Object state) {
-        Integer i = (Integer)stateIncomingTransitionCount.get(state);
+        Integer i = stateIncomingTransitionCount.get(state);
         if(i == null)
             return 0;
         else
@@ -114,10 +114,10 @@ public class FAAnalysis {
     
     public String toString() {
         StringBuilder s = new StringBuilder();
-        Iterator iterator = stateIncomingTransitionCount.keySet().iterator();
+        Iterator<Object> iterator = stateIncomingTransitionCount.keySet().iterator();
         while(iterator.hasNext()) {
             NFAState key = (NFAState)iterator.next();
-            Integer count = (Integer)stateIncomingTransitionCount.get(key);
+            Integer count = stateIncomingTransitionCount.get(key);
             s.append(key.stateNumber+" = "+count.intValue()+"\n");
         }
         return s.toString();
