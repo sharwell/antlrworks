@@ -15,7 +15,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import java.awt.*;
-import java.util.Stack;
+import java.util.List;
+
 /*
 
 [The "BSD licence"]
@@ -169,7 +170,7 @@ public class DBASTPanel extends DetachablePanel implements DBASTModelListener, X
         if(rule == null)
             return;
 
-        Stack<DBASTModel.ASTNode> roots = rule.getRoots();
+        List<DBASTModel.ASTNode> roots = rule.getRoots();
         for (int r = 0; r < roots.size(); r++) {
             DBASTModel.ASTNode node = roots.get(r);
             DBTreeNode candidate = node.findNodeWithToken(token);

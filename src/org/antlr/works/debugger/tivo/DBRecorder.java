@@ -119,7 +119,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
     /**
      * Current grammar the recorder is in
      */
-    protected Stack<String> grammarNamesStack = new Stack<String>();
+    protected List<String> grammarNamesStack = new ArrayList<String>();
 
     public DBRecorder(DebuggerTab debuggerTab) {
         this.debuggerTab = debuggerTab;
@@ -552,15 +552,15 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
 
     public void handleGrammarName(DBEvent event) {
         if(event instanceof DBEventEnterRule) {
-            grammarNamesStack.push(event.getGrammarName());
+            grammarNamesStack.add(event.getGrammarName());
         }
         if(event instanceof DBEventExitRule) {
-            grammarNamesStack.pop();
+            grammarNamesStack.remove(grammarNamesStack.size() - 1);
         }
         if(grammarNamesStack.isEmpty()) {
             event.setGrammarName(null);
         } else {
-            event.setGrammarName(grammarNamesStack.peek());
+            event.setGrammarName(grammarNamesStack.get(grammarNamesStack.size() - 1));
         }
     }
 

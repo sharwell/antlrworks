@@ -499,12 +499,12 @@ public class EditorRules implements XJTreeDelegate {
         if(groups.isEmpty()) {
             buildTree(rulesTreeRootNode, rules, 0, rules.size()-1);
         } else {
-            Stack<DefaultMutableTreeNode> parentStack = new Stack<DefaultMutableTreeNode>();
+            List<DefaultMutableTreeNode> parentStack = new ArrayList<DefaultMutableTreeNode>();
             parentStack.add(rulesTreeRootNode);
 
             int ruleIndex = 0;
             for (ElementGroup group : groups) {
-                DefaultMutableTreeNode parentNode = parentStack.peek();
+                DefaultMutableTreeNode parentNode = parentStack.get(parentStack.size() - 1);
                 if (group.ruleIndex >= 0) {
                     buildTree(parentNode, rules, ruleIndex, group.ruleIndex);
                     ruleIndex = group.ruleIndex + 1;
@@ -513,15 +513,15 @@ public class EditorRules implements XJTreeDelegate {
                 if (group.openGroup) {
                     DefaultMutableTreeNode node = new DefaultMutableTreeNode(new RuleTreeUserObject(group));
                     parentNode.add(node);
-                    parentStack.push(node);
+                    parentStack.add(node);
                 } else {
                     if (parentStack.size() > 1)
-                        parentStack.pop();
+                        parentStack.remove(parentStack.size() - 1);
                 }
             }
 
             if(ruleIndex < rules.size()) {
-                DefaultMutableTreeNode parentNode = parentStack.peek();
+                DefaultMutableTreeNode parentNode = parentStack.get(parentStack.size() - 1);
                 buildTree(parentNode, rules, ruleIndex, rules.size()-1);
             }
         }

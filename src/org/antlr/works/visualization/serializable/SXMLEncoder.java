@@ -34,7 +34,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public class SXMLEncoder implements SEncoder {
 
     private final Map<SSerializable, Entry> cache = new HashMap<SSerializable, Entry>();
-    private final Stack<Entry> stack = new Stack<Entry>();
+    private final List<Entry> stack = new ArrayList<Entry>();
     private long uid;
     private Entry root;
 
@@ -55,31 +55,31 @@ public class SXMLEncoder implements SEncoder {
 
             if(root == null) {
                 root = entry;
-                stack.push(root);
+                stack.add(root);
             } else {
-                stack.peek().write(entry);                
+                stack.get(stack.size() - 1).write(entry);
             }
 
             // serialize this object
-            stack.push(entry);
+            stack.add(entry);
             object.encode(this);
-            stack.pop();
+            stack.remove(stack.size() - 1);
         } else {
             // already being serialized
-            stack.peek().write(entry.getUID());
+            stack.get(stack.size() - 1).write(entry.getUID());
         }
     }
 
     public void write(String value) {
-        stack.peek().write(value);
+        stack.get(stack.size() - 1).write(value);
     }
 
     public void write(int value) {
-        stack.peek().write(value);
+        stack.get(stack.size() - 1).write(value);
     }
 
     public void write(boolean value) {
-        stack.peek().write(value);
+        stack.get(stack.size() - 1).write(value);
     }
 
     public static class Entry {
@@ -149,17 +149,17 @@ public class SXMLEncoder implements SEncoder {
     public static class XMLWriter {
 
         StringBuilder sb = new StringBuilder();
-        Stack<String> elements = new Stack<String>();
+        List<String> elements = new ArrayList<String>();
 
         public void open(String name) {
-            elements.push(name);
+            elements.add(name);
             sb.append("<");
             sb.append(name);
             sb.append(">");
         }
 
         public void close() {
-            String name = elements.pop();
+            String name = elements.remove(elements.size() - 1);
             sb.append("</");
             sb.append(name);
             sb.append(">");

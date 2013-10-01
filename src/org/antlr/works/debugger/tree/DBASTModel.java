@@ -39,7 +39,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public class DBASTModel {
 
     /** Stack of rule. Each rule contains a stack of roots */
-    public Stack<Rule> rules = new Stack<Rule>();
+    public List<Rule> rules = new ArrayList<Rule>();
 
     /** Map of nodes */
     public Map<Integer, ASTNode> nodesMap = new HashMap<Integer, ASTNode>();
@@ -92,23 +92,23 @@ public class DBASTModel {
     /* Methods used by the debugger */
 
     public void pushRule(String name) {
-        rules.push(new Rule(name, new Stack<ASTNode>()));
+        rules.add(new Rule(name, new ArrayList<ASTNode>()));
     }
 
     public void popRule() {
         /* Do not pop the start rule: we want to be able to see the AST
         tree at the end of event stream so we keep the start rule on the stack. */
         if(rules.size() > 1)
-            rules.pop();
+            rules.remove(rules.size() - 1);
     }
 
     public void pushRoot(ASTNode node) {
-        getRoots().push(node);
+        getRoots().add(node);
     }
 
     /** Replace a root node by another one */
     public void replaceRoot(ASTNode oldRoot, ASTNode newRoot) {
-        Stack<ASTNode> roots = getRoots();
+        List<ASTNode> roots = getRoots();
         int index = roots.indexOf(oldRoot);
         roots.remove(index);
         roots.add(index, newRoot);
@@ -189,19 +189,19 @@ public class DBASTModel {
         return nodesMap.get(id);
     }
 
-    protected Stack<ASTNode> getRoots() {
+    protected List<ASTNode> getRoots() {
         if(rules.isEmpty())
             return null;
         else
-            return (rules.peek()).roots;
+            return (rules.get(rules.size() - 1)).roots;
     }
 
     public class Rule {
 
         public String name;
-        public Stack<ASTNode> roots;
+        public List<ASTNode> roots;
 
-        public Rule(String name, Stack<ASTNode> roots) {
+        public Rule(String name, List<ASTNode> roots) {
             this.name = name;
             this.roots = roots;
         }
@@ -210,7 +210,7 @@ public class DBASTModel {
             return roots.get(index);
         }
 
-        public Stack<ASTNode> getRoots() {
+        public List<ASTNode> getRoots() {
             return roots;
         }
     }
@@ -222,10 +222,11 @@ public class DBASTModel {
 
         public ASTNode parentNode = null;
 
+        @SuppressWarnings("UseOfObsoleteCollectionType")
         public ASTNode(int id) {
             this.id = id;
-            /** Children is defined in DefaultMutableTreeNode */
-            children = new Vector();
+            /* Children is defined in DefaultMutableTreeNode */
+            children = new Vector<Object>();
         }
 
         /** Add a child */

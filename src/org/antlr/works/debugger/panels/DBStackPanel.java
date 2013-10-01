@@ -10,7 +10,8 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.List;
+
 /*
 
 [The "BSD licence"]
@@ -49,7 +50,7 @@ public class DBStackPanel extends DetachablePanel {
 
     private XJTableView infoTableView;
     private DBStackPanel.RuleTableDataModel ruleTableDataModel;
-    private Stack<DBEventEnterRule> rules = new Stack<DBEventEnterRule>();
+    private List<DBEventEnterRule> rules = new ArrayList<DBEventEnterRule>();
 
     public DBStackPanel(DebuggerTab debuggerTab) {
         super("Stack", debuggerTab);
@@ -89,20 +90,20 @@ public class DBStackPanel extends DetachablePanel {
     }
 
     public void pushRule(DBEventEnterRule rule) {
-        rules.push(rule);
+        rules.add(rule);
         ruleTableDataModel.add(rule.name);
     }
 
     public void popRule() {
-        ruleTableDataModel.remove(rules.peek().name);
-        rules.pop();
+        ruleTableDataModel.remove(rules.get(rules.size() - 1).name);
+        rules.remove(rules.size() - 1);
     }
 
     public DBEventEnterRule peekRule() {
         if(rules.isEmpty()) {
             return null;
         } else {
-            return rules.peek();            
+            return rules.get(rules.size() - 1);
         }
     }
 

@@ -1,9 +1,9 @@
 package org.antlr.works.ate.syntax.generic;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.antlr.works.ate.syntax.misc.ATEToken;
 
-import java.util.List;
-import java.util.Stack;
 /*
 
 [The "BSD licence"]
@@ -38,7 +38,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public abstract class ATESyntaxParser {
 
     private List<ATEToken> tokens;
-    private Stack<Integer> marks = new Stack<Integer>();
+    private List<Integer> marks = new ArrayList<Integer>();
     private int position;
 
     private ATEToken t0;
@@ -73,11 +73,11 @@ public abstract class ATESyntaxParser {
     }
 
     public void mark() {
-        marks.push(position);
+        marks.add(position);
     }
 
     public void rewind() {
-        position = marks.pop();
+        position = marks.remove(marks.size() - 1);
         clearTokenCache();
     }
 

@@ -37,7 +37,8 @@ import org.antlr.works.visualization.graphics.shape.GNode;
 import org.antlr.works.visualization.skin.Skin;
 
 import java.awt.*;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GContext {
 
@@ -76,7 +77,7 @@ public class GContext {
 
     private boolean showRuleName = true;
 
-    public final Stack<Color> colorStack = new Stack<Color>();
+    public final List<Color> colorStack = new ArrayList<Color>();
 
     public Color nodeColor = Color.black;
     public Color linkColor = Color.black;
@@ -225,12 +226,12 @@ public class GContext {
     }
 
     public void pushColor(Color color) {
-        colorStack.push(engine.getColor());
+        colorStack.add(engine.getColor());
         setColor(color);
     }
 
     public void popColor() {
-        setColor(colorStack.pop());
+        setColor(colorStack.remove(colorStack.size() - 1));
     }
 
     public Color getColorForLabel(String label) {

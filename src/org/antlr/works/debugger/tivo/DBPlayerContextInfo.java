@@ -1,6 +1,8 @@
 package org.antlr.works.debugger.tivo;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
 
 [The "BSD licence"]
@@ -34,17 +36,17 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 public class DBPlayerContextInfo {
 
-    public Stack<Integer> subrule = new Stack<Integer>();
-    public Stack<Integer> decision = new Stack<Integer>();
-    public Stack<Integer> mark = new Stack<Integer>();
-    public Stack<Integer> backtrack = new Stack<Integer>();
+    public List<Integer> subrule = new ArrayList<Integer>();
+    public List<Integer> decision = new ArrayList<Integer>();
+    public List<Integer> mark = new ArrayList<Integer>();
+    public List<Integer> backtrack = new ArrayList<Integer>();
 
     public void enterSubrule(int i) {
-        subrule.push(i);
+        subrule.add(i);
     }
 
     public void exitSubrule() {
-        subrule.pop();
+        subrule.remove(subrule.size() - 1);
     }
 
     public int getSubrule() {
@@ -52,11 +54,11 @@ public class DBPlayerContextInfo {
     }
 
     public void enterDecision(int i) {
-        decision.push(i);
+        decision.add(i);
     }
 
     public void exitDecision() {
-        decision.pop();
+        decision.remove(decision.size() - 1);
     }
 
     public int getDecision() {
@@ -64,11 +66,11 @@ public class DBPlayerContextInfo {
     }
 
     public void mark(int i) {
-        mark.push(i);
+        mark.add(i);
     }
 
     public void rewind() {
-        mark.pop();
+        mark.remove(mark.size() - 1);
     }
 
     public int getMark() {
@@ -76,11 +78,11 @@ public class DBPlayerContextInfo {
     }
 
     public void beginBacktrack(int level) {
-        backtrack.push(level);
+        backtrack.add(level);
     }
 
     public void endBacktrack() {
-        backtrack.pop();
+        backtrack.remove(backtrack.size() - 1);
     }
 
     public int getBacktrack() {
@@ -91,11 +93,11 @@ public class DBPlayerContextInfo {
         return !backtrack.isEmpty();
     }
 
-    public int getPeekValue(Stack<Integer> s) {
+    public int getPeekValue(List<Integer> s) {
         if(s.isEmpty())
             return -1;
         else
-            return s.peek();
+            return s.get(s.size() - 1);
     }
 
     public void clear() {

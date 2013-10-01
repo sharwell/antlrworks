@@ -37,8 +37,8 @@ import org.antlr.works.debugger.events.*;
 import org.antlr.works.debugger.input.DBInputProcessor;
 import org.antlr.works.debugger.input.DBInputTextTokenInfo;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class DBPlayer {
 
@@ -46,7 +46,7 @@ public class DBPlayer {
     protected DBInputProcessor processor;
 
     protected DBPlayerContextInfo contextInfo;
-    protected Stack<Integer> markStack;
+    protected List<Integer> markStack;
 
     protected int resyncing = 0;
     protected int eventPlayedCount = 0;
@@ -54,7 +54,7 @@ public class DBPlayer {
     public DBPlayer(DebuggerTab debuggerTab) {
         this.debuggerTab = debuggerTab;
         contextInfo = new DBPlayerContextInfo();
-        markStack = new Stack<Integer>();
+        markStack = new ArrayList<Integer>();
     }
 
     public void close() {
@@ -317,13 +317,13 @@ public class DBPlayer {
 
     public void playMark(DBEventMark event) {
         contextInfo.mark(event.id);
-        markStack.push(processor.getCurrentTokenIndex());
+        markStack.add(processor.getCurrentTokenIndex());
     }
 
     public void playRewind(DBEventRewind event) {
-        processor.rewind(markStack.peek());
+        processor.rewind(markStack.get(markStack.size() - 1));
         if(!event.rewindToLastMark()) {
-            markStack.pop();
+            markStack.remove(markStack.size() - 1);
             contextInfo.rewind();
         }
     }

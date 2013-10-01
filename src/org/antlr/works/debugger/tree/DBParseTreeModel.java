@@ -15,7 +15,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 /*
 
 [The "BSD licence"]
@@ -49,8 +48,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 public class DBParseTreeModel extends AWTreeModel implements XJNotificationObserver {
 
-    public Stack<ParseTreeNode> rules = new Stack<ParseTreeNode>();
-    public Stack<Backtrack> backtrackStack = new Stack<Backtrack>();
+    public List<ParseTreeNode> rules = new ArrayList<ParseTreeNode>();
+    public List<Backtrack> backtrackStack = new ArrayList<Backtrack>();
 
     public Color lookaheadTokenColor;
     public TreeNode lastNode;
@@ -85,7 +84,7 @@ public class DBParseTreeModel extends AWTreeModel implements XJNotificationObser
 
     public void initRules() {
         rules.clear();
-        rules.push(new ParseTreeNode("root", null));
+        rules.add(new ParseTreeNode("root", null));
     }
 
     public void initColors() {
@@ -117,10 +116,10 @@ public class DBParseTreeModel extends AWTreeModel implements XJNotificationObser
     }
 
     public void pushRule(String name) {
-        ParseTreeNode parentRuleNode = rules.peek();
+        ParseTreeNode parentRuleNode = rules.get(rules.size() - 1);
 
         ParseTreeNode ruleNode = new ParseTreeNode(name, location);
-        rules.push(ruleNode);
+        rules.add(ruleNode);
 
         addNode(parentRuleNode, ruleNode);
         addNodeToCurrentBacktrack(ruleNode);
@@ -129,22 +128,22 @@ public class DBParseTreeModel extends AWTreeModel implements XJNotificationObser
     }
 
     public void popRule() {
-        rules.pop();
+        rules.remove(rules.size() - 1);
     }
 
     public TreeNode getRootRule() {
-        return rules.firstElement();
+        return rules.get(0);
     }
 
     public TreeNode peekRule() {
         if(rules.isEmpty())
             return null;
         else
-            return rules.peek();
+            return rules.get(rules.size() - 1);
     }
 
     public void addToken(Token token) {
-        ParseTreeNode ruleNode = rules.peek();
+        ParseTreeNode ruleNode = rules.get(rules.size() - 1);
         ParseTreeNode elementNode = new ParseTreeNode(token, location);
         addNode(ruleNode, elementNode);
         addNodeToCurrentBacktrack(elementNode);
@@ -152,7 +151,7 @@ public class DBParseTreeModel extends AWTreeModel implements XJNotificationObser
     }
 
     public void addException(Exception e) {
-        ParseTreeNode ruleNode = rules.peek();
+        ParseTreeNode ruleNode = rules.get(rules.size() - 1);
         ParseTreeNode errorNode = new ParseTreeNode(e, location);
         addNode(ruleNode, errorNode);
         addNodeToCurrentBacktrack(errorNode);
@@ -163,16 +162,16 @@ public class DBParseTreeModel extends AWTreeModel implements XJNotificationObser
         if(backtrackStack.isEmpty())
             return;
 
-        Backtrack b = backtrackStack.peek();
+        Backtrack b = backtrackStack.get(backtrackStack.size() - 1);
         b.addNode(node);
     }
 
     public void beginBacktrack(int level) {
-        backtrackStack.push(new Backtrack(level, lookaheadTokenColor));
+        backtrackStack.add(new Backtrack(level, lookaheadTokenColor));
     }
 
     public void endBacktrack(int level, boolean success) {
-        Backtrack b = backtrackStack.pop();
+        Backtrack b = backtrackStack.remove(backtrackStack.size() - 1);
         b.end(success);
         setLastNode(b.getLastNode());
     }

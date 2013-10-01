@@ -37,7 +37,8 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XJUndo {
 
@@ -48,7 +49,7 @@ public class XJUndo {
     protected XJUndoAction undoAction;
     protected XJRedoAction redoAction;
 
-    protected Stack<CustomCompoundEdit> groupEditEvent = new Stack<CustomCompoundEdit>();
+    protected List<CustomCompoundEdit> groupEditEvent = new ArrayList<CustomCompoundEdit>();
 
     protected int enable = 0;
 
@@ -99,11 +100,11 @@ public class XJUndo {
     }
 
     public void beginUndoGroup(String name) {
-        groupEditEvent.push(new CustomCompoundEdit(name));
+        groupEditEvent.add(new CustomCompoundEdit(name));
     }
 
     public void endUndoGroup() {
-        CustomCompoundEdit edit = groupEditEvent.pop();
+        CustomCompoundEdit edit = groupEditEvent.remove(groupEditEvent.size() - 1);
         edit.end();
         addEditEvent(edit);
     }
@@ -112,7 +113,7 @@ public class XJUndo {
         if(groupEditEvent.isEmpty())
             return null;
         else
-            return (CompoundEdit)groupEditEvent.peek();
+            return groupEditEvent.get(groupEditEvent.size() - 1);
     }
 
     public void enableUndo() {
