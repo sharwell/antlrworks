@@ -58,7 +58,7 @@ public class GView extends JPanel implements XJMenuItemDelegate {
     protected String placeholder;
     protected BufferedImage cachedImage = null;
 
-    protected List graphs = new ArrayList();
+    protected List<GGraphAbstract> graphs = new ArrayList<GGraphAbstract>();
     protected int currentGraphIndex = 0;
     protected GPanel panel;
     protected GContext context;
@@ -103,7 +103,7 @@ public class GView extends JPanel implements XJMenuItemDelegate {
     }
 
     @SuppressWarnings("unchecked")
-    public void setGraphs(List graphs) {
+    public void setGraphs(List<? extends GGraphAbstract> graphs) {
         this.graphs.clear();
 
         if(graphs == null)
@@ -117,7 +117,7 @@ public class GView extends JPanel implements XJMenuItemDelegate {
         applyContext();
     }
 
-    public List getGraphs() {
+    public List<? extends GGraphAbstract> getGraphs() {
         return graphs;
     }
 
@@ -187,7 +187,7 @@ public class GView extends JPanel implements XJMenuItemDelegate {
 
     public GGraphAbstract getCurrentGraph() {
         if(graphs.size()>0)
-            return (GGraphAbstract)graphs.get(currentGraphIndex);
+            return graphs.get(currentGraphIndex);
         else
             return null;
     }

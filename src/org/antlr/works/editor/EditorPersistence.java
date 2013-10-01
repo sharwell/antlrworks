@@ -70,7 +70,7 @@ public class EditorPersistence {
         }
     }
     
-    public void store(List objects, String key) {
+    public void store(List<? extends EditorPersistentObject> objects, String key) {
         Map<Object,EditorPersistentObject> m = persistence.get(key);
         if(m == null) {
             m = new HashMap<Object, EditorPersistentObject>();
@@ -81,13 +81,12 @@ public class EditorPersistence {
         if(objects == null)
             return;
 
-        for (Object object : objects) {
-            EditorPersistentObject o = (EditorPersistentObject) object;
+        for (EditorPersistentObject o : objects) {
             m.put(o.getPersistentID(), o);
         }
     }
 
-    public void restore(List objects, String key) {
+    public void restore(List<? extends EditorPersistentObject> objects, String key) {
         Map<Object,EditorPersistentObject> m = persistence.get(key);
         if(m == null)
             return;
@@ -95,8 +94,7 @@ public class EditorPersistence {
         if(objects == null)
             return;
 
-        for (Object object : objects) {
-            EditorPersistentObject o = (EditorPersistentObject) object;
+        for (EditorPersistentObject o : objects) {
             EditorPersistentObject oldObject = m.get(o.getPersistentID());
             if (oldObject != null)
                 o.persistentAssign(oldObject);

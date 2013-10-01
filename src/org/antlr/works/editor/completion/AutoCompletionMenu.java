@@ -57,7 +57,7 @@ public class AutoCompletionMenu extends OverlayObject {
     /** Used to store most recently used during autocompletion
      *  the newest should be stored at the front of the list.
      */
-    protected static List<String> recentlyUsedWords = new LinkedList<String>();
+    protected static LinkedList<String> recentlyUsedWords = new LinkedList<String>();
     protected int maxWordLength;
 
     protected int insertionStartIndex;
@@ -228,7 +228,7 @@ public class AutoCompletionMenu extends OverlayObject {
             String partialWord = words.get(list.getSelectedIndex());
             if (isVStyle())  {
                 recentlyUsedWords.remove(partialWord); //put it at the beginning of the list if it exists
-                ((LinkedList)recentlyUsedWords).addFirst(partialWord);
+                recentlyUsedWords.addFirst(partialWord);
             }
             completePartialWord(partialWord);
         }

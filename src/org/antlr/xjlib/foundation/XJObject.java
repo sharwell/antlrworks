@@ -64,7 +64,7 @@ public class XJObject {
     }
 
     public void removeObserverForKey(Object o, String key) {
-        List list = keyObservers.get(key);
+        List<Object> list = keyObservers.get(key);
         if(list == null)
             return;
 
@@ -81,7 +81,7 @@ public class XJObject {
         keyValueChangedToObservers(keyObservers.get(key), sender, key, value);
     }
 
-    private void keyValueChangedToObservers(List observers, Object sender, String key, Object value) {
+    private void keyValueChangedToObservers(List<Object> observers, Object sender, String key, Object value) {
         if(observers == null)
             return;
 

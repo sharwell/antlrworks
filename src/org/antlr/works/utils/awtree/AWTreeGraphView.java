@@ -434,7 +434,7 @@ public class AWTreeGraphView extends GView {
                 return 0;
 
             for (int i = elements.size()-1; i >= 0; i--) {
-                GElement element = (GElement) elements.get(i);
+                GElement element = elements.get(i);
                 if(element instanceof GElementNode) {
                     GElementNode n = (GElementNode)element;
                     return n.getRightSpan();

@@ -39,6 +39,7 @@ import org.antlr.works.utils.Console;
 import org.antlr.works.visualization.fa.FAFactory;
 import org.antlr.works.visualization.fa.FAState;
 import org.antlr.works.visualization.graphics.graph.GGraph;
+import org.antlr.works.visualization.graphics.graph.GGraphAbstract;
 import org.antlr.works.visualization.graphics.graph.GGraphGroup;
 
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class GFactory {
         this.console = console;
     }
 
-    public List buildGraphsForRule(ANTLRGrammarEngine antlrEngineGrammar, String rule, List<GrammarError> errors) throws Exception {
+    public List<? extends GGraphAbstract> buildGraphsForRule(ANTLRGrammarEngine antlrEngineGrammar, String rule, List<GrammarError> errors) throws Exception {
         if(antlrEngineGrammar == null)
             return null;
         
@@ -123,7 +124,7 @@ public class GFactory {
 
         // Attach all error paths to the GGraphGroup
         for(int i=0; i<error.paths.size(); i++) {
-            List states = error.paths.get(i);
+            List<? extends NFAState> states = error.paths.get(i);
             Boolean disabled = error.pathsDisabled.get(i);
             try {
                 gg.addPath(states, disabled, factory.getSkippedStatesMap());

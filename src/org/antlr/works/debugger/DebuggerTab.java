@@ -563,7 +563,7 @@ public class DebuggerTab extends GrammarWindowTab implements DetachablePanelDele
         eventsPanel.addEvent(event, info);
     }
 
-    public void playEvents(List events, int lastEventPosition, boolean reset) {
+    public void playEvents(List<? extends DBEvent> events, int lastEventPosition, boolean reset) {
         player.playEvents(events, lastEventPosition, reset);
         breaksOnEvent();
     }

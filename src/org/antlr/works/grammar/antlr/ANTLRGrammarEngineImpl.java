@@ -33,6 +33,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.antlr.works.grammar.antlr;
 
 import antlr.TokenStreamException;
+import org.antlr.analysis.Label;
 import org.antlr.analysis.NFAState;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.tool.*;
@@ -46,6 +47,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -229,23 +231,20 @@ public class ANTLRGrammarEngineImpl implements ANTLRGrammarEngine {
         lexerGrammar = createNewGrammar();
     }
 
-    private void printLeftRecursionToConsole(List rules) {
+    private void printLeftRecursionToConsole(List<? extends Collection<? extends Rule>> rules) {
         StringBuilder info = new StringBuilder();
         info.append("Aborting because the following rules are mutually left-recursive:");
-        for (Object rule : rules) {
-            Set rulesSet = (Set) rule;
+        for (Collection<? extends Rule> rulesSet : rules) {
             info.append("\n    ");
             info.append(rulesSet);
         }
         engine.reportError(info.toString());
     }
 
-    private void markLeftRecursiveRules(List rules) {
+    private void markLeftRecursiveRules(List<? extends Collection<? extends Rule>> rules) {
         // 'rules' is a list of set of rules given by ANTLR
-        for (Object ruleSet : rules) {
-            final Set rulesSet = (Set) ruleSet;
-            for (Object rule : rulesSet) {
-                final Rule aRule = (Rule) rule;
+        for (Collection<? extends Rule> rulesSet : rules) {
+            for (Rule aRule : rulesSet) {
                 final ElementRule r = engine.getRuleWithName(aRule.name);
                 if (r == null)
                     continue;
@@ -276,7 +275,7 @@ public class ANTLRGrammarEngineImpl implements ANTLRGrammarEngine {
             return analyzeCompleted(el);
         }
 
-        List rules = g.checkAllRulesForLeftRecursion();
+        List<? extends Collection<? extends Rule>> rules = g.checkAllRulesForLeftRecursion();
         if(!rules.isEmpty()) {
             printLeftRecursionToConsole(rules);
             markLeftRecursiveRules(rules);
@@ -385,7 +384,7 @@ public class ANTLRGrammarEngineImpl implements ANTLRGrammarEngine {
         GrammarError error = new GrammarError();
         error.setLine(message.probe.dfa.getDecisionASTNode().getLine()-1);
 
-        List labels = message.probe.getSampleNonDeterministicInputSequence(message.problemState);
+        List<Label> labels = message.probe.getSampleNonDeterministicInputSequence(message.problemState);
         error.setLabels(labels);
 
         String input = message.probe.getInputSequenceDisplay(labels);
@@ -451,25 +450,24 @@ public class ANTLRGrammarEngineImpl implements ANTLRGrammarEngine {
     }
 
     private void computeRuleError(GrammarError error, GrammarNonDeterminismMessage message) {
-        List nonDetAlts = message.probe.getNonDeterministicAltsForState(message.problemState);
-        Set disabledAlts = message.probe.getDisabledAlternatives(message.problemState);
+        List<Integer> nonDetAlts = message.probe.getNonDeterministicAltsForState(message.problemState);
+        Set<Integer> disabledAlts = message.probe.getDisabledAlternatives(message.problemState);
 
         int firstAlt = 0;
 
-        for (Object nonDetAlt : nonDetAlts) {
-            Integer displayAltI = (Integer) nonDetAlt;
+        for (Integer nonDetAlt : nonDetAlts) {
             NFAState nfaStart = message.probe.dfa.getNFADecisionStartState();
 
-            int tracePathAlt = nfaStart.translateDisplayAltToWalkAlt(displayAltI);
+            int tracePathAlt = nfaStart.translateDisplayAltToWalkAlt(nonDetAlt);
             if (firstAlt == 0)
                 firstAlt = tracePathAlt;
 
-            List path =
+            List<? extends NFAState> path =
                     message.probe.getNFAPathStatesForAlt(firstAlt,
                             tracePathAlt,
                             error.getLabels());
 
-            error.addPath(path, disabledAlts.contains(displayAltI));
+            error.addPath(path, disabledAlts.contains(nonDetAlt));
             error.addStates(path);
 
             // Find all rules enclosing each state (because a path can extend over multiple rules)

@@ -88,7 +88,7 @@ public class GPanel implements XJNotificationObserver {
         XJNotificationCenter.defaultCenter().removeObserver(this);
     }
 
-    public void setGraphs(List graphs) {
+    public void setGraphs(List<? extends GGraphAbstract> graphs) {
         view.setGraphs(graphs);
         view.refresh();
         updateCurrentAlternative();

@@ -1,5 +1,6 @@
 package org.antlr.works.grammar.element;
 
+import org.antlr.tool.Rule;
 import org.antlr.works.ate.folding.ATEFoldingEntity;
 import org.antlr.works.ate.gutter.ATEGutterItem;
 import org.antlr.works.ate.syntax.misc.ATEToken;
@@ -11,9 +12,9 @@ import org.antlr.works.utils.IconManager;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 /*
 
 [The "BSD licence"]
@@ -63,7 +64,7 @@ public class ElementRule extends ElementScopable implements Comparable<ElementRu
     public boolean leftRecursionAnalyzed = false;
 
     // Set of rules that are mutually left recursive (cannot be fixed by ANTLRWorks)
-    public Set leftRecursiveRulesSet;
+    public Collection<? extends Rule> leftRecursiveRulesSet;
 
     public boolean hierarchyAnalyzed = false;
 
@@ -235,11 +236,11 @@ public class ElementRule extends ElementScopable implements Comparable<ElementRu
         return expanded;
     }
 
-    public void setLeftRecursiveRulesSet(Set rulesSet) {
+    public void setLeftRecursiveRulesSet(Collection<? extends Rule> rulesSet) {
         leftRecursiveRulesSet = rulesSet;
     }
 
-    public Set getLeftRecursiveRulesSet() {
+    public Collection<? extends Rule> getLeftRecursiveRulesSet() {
         return leftRecursiveRulesSet;
     }
 

@@ -159,10 +159,9 @@ public class GGraph extends GGraphAbstract implements SSerializable {
         return null;
     }
 
-    public boolean containsAtLeastOneState(List states) {
+    public boolean containsAtLeastOneState(List<NFAState> states) {
         for (GNode node : nodes) {
-            for (Object state1 : states) {
-                NFAState state = (NFAState) state1;
+            for (NFAState state : states) {
                 if (node.containsStateNumber(state.stateNumber))
                     return true;
             }

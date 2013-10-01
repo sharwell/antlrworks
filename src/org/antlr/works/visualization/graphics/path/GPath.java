@@ -113,13 +113,13 @@ public class GPath extends GObject {
         return count;
     }
 
-    public void draw(float width, List ignoreElements) {
+    public void draw(float width, List<? super GPathElement> ignoreElements) {
         if(showRuleLinks)
             drawElements(width, ignoreElements, true);
         drawElements(width, ignoreElements, false);
     }
 
-    public void drawElements(float width, List ignoreElements, boolean ruleLink) {
+    public void drawElements(float width, List<? super GPathElement> ignoreElements, boolean ruleLink) {
         context.nodeColor = disabled?Color.red:Color.green.darker();
         context.linkColor = context.nodeColor;
         context.setLineWidth(width);

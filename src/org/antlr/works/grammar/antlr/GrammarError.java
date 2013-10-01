@@ -31,6 +31,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.antlr.works.grammar.antlr;
 
+import org.antlr.analysis.Label;
 import org.antlr.analysis.NFAState;
 import org.antlr.tool.Message;
 
@@ -40,7 +41,7 @@ import java.util.List;
 public class GrammarError {
 
     /** Array of array of NFAState states */
-    public List<List> paths = new ArrayList<List>();
+    public List<List<? extends NFAState>> paths = new ArrayList<List<? extends NFAState>>();
 
     /** Array describing which path is disabled */
     public List<Boolean> pathsDisabled = new ArrayList<Boolean>();
@@ -52,9 +53,9 @@ public class GrammarError {
     public List<String> rules = new ArrayList<String>();
 
     /** Array of states concerned by the error */
-    public List states = new ArrayList();
+    public List<NFAState> states = new ArrayList<NFAState>();
 
-    public List labels;
+    public List<Label> labels;
 
     public int line;
     public String messageText;
@@ -63,7 +64,7 @@ public class GrammarError {
     public GrammarError() {
     }
 
-    public void addPath(List path, boolean disabled) {
+    public void addPath(List<? extends NFAState> path, boolean disabled) {
         this.paths.add(path);
         this.pathsDisabled.add(disabled);
     }
@@ -81,7 +82,7 @@ public class GrammarError {
         this.states.add(state);
     }
 
-    public void addStates(List states) {
+    public void addStates(List<? extends NFAState> states) {
         this.states.addAll(states);
     }
 
@@ -101,11 +102,11 @@ public class GrammarError {
         return message;
     }
     
-    public void setLabels(List labels) {
+    public void setLabels(List<Label> labels) {
         this.labels = labels;
     }
 
-    public List getLabels() {
+    public List<Label> getLabels() {
         return labels;
     }
 }

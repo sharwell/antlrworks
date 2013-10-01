@@ -311,7 +311,7 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
         XJMainMenuBar.refreshAllRecentFilesMenu();
     }
 
-    public List recentFiles() {
+    public List<String> recentFiles() {
         return recentFiles;
     }
 
@@ -351,8 +351,8 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
         return null;
     }
 
-    public List getDocumentExtensions() {
-        List<List> ext = new ArrayList<List>();
+    public List<List<String>> getDocumentExtensions() {
+        List<List<String>> ext = new ArrayList<List<String>>();
         for (XJDocumentFactory factory : documentFactories) {
             ext.add(factory.getExtensions());
         }

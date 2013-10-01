@@ -90,12 +90,12 @@ public class DecisionDFA extends GrammarDOTTab {
     public int getDecisionColumn(Grammar g) {
         if(g == null) return -1;
         
-        List columns = g.getLookaheadDFAColumnsForLineInFile(line);
+        List<Integer> columns = g.getLookaheadDFAColumnsForLineInFile(line);
         // sort the columns as they appears to be not always in ascending order
         Collections.sort(columns);
         int adjustedColumn = -1;
         for(int index = columns.size()-1; index >=0; index--) {
-            Integer match = (Integer)columns.get(index);
+            Integer match = columns.get(index);
             if(match <= column) {
                 adjustedColumn = match;
                 break;

@@ -41,7 +41,7 @@ import java.util.List;
 public class GEventManager {
 
     private List<GAbstractEvent> eventObjects = new ArrayList<GAbstractEvent>();
-    private Set exclusiveValueSet = new HashSet();
+    private Set<Object> exclusiveValueSet = new HashSet<Object>();
     private GEventDelegate eventDelegate = null;
 
     public static final int EVENT_DRAW = 1;

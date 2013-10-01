@@ -102,13 +102,13 @@ public class GGraphGroup extends GGraphAbstract {
         return getDimension().getPixelWidth(context);
     }
 
-    public List<FATransition> getTransitionsMatchingSkippedStates(List<FATransition> candidates, List states) {
+    public List<FATransition> getTransitionsMatchingSkippedStates(List<FATransition> candidates, List<? extends NFAState> states) {
         /** First convert the list of NFAStates to a list of Integer containing
          * the state number
          */
         List<Integer> statesNumbers = new ArrayList<Integer>();
-        for (Object state : states) {
-            statesNumbers.add((((NFAState) state).stateNumber));
+        for (NFAState state : states) {
+            statesNumbers.add(state.stateNumber);
         }
 
         /** Select only the transitions that containing all the state numbers */
@@ -122,7 +122,7 @@ public class GGraphGroup extends GGraphAbstract {
         return newCandidates;
     }
 
-    public FATransition getNodeTransitionToNextNonSkippedState(GNode node, List path) {
+    public FATransition getNodeTransitionToNextNonSkippedState(GNode node, List<? extends NFAState> path) {
         if(node == null)
             return null;
 
@@ -149,7 +149,7 @@ public class GGraphGroup extends GGraphAbstract {
                     // missing a transition: this can happen if a transition is a subset of
                     // the others (the next state of the path can return no transition at all)
                     if(getPathIndex() +1 < path.size()) {
-                        NFAState nextPathState = (NFAState) path.get(getPathIndex() +1);
+                        NFAState nextPathState = path.get(getPathIndex() +1);
                         for (FATransition t : candidateTransitions) {
                             if (t.target.stateNumber == nextPathState.stateNumber) {
                                 pathIndex = getPathIndex() + 1;    // always points to the next element after the transition
@@ -220,7 +220,7 @@ public class GGraphGroup extends GGraphAbstract {
         }
     }
 
-    public void addPath(List path, boolean disabled, Map<Integer,FAState> skippedStates) {
+    public void addPath(List<? extends NFAState> path, boolean disabled, Map<Integer,FAState> skippedStates) {
         List<GPathElement> elements = new ArrayList<GPathElement>();
 
         /** path contains a list of NFAState states (from ANTLR): they represent
@@ -238,7 +238,7 @@ public class GGraphGroup extends GGraphAbstract {
         GNode nextNode = null;
         for(pathIndex = 0; getPathIndex() < path.size(); pathIndex = getPathIndex() + 1) {
             if(getPathIndex() == 0) {
-                nextState = (NFAState)path.get(getPathIndex());
+                nextState = path.get(getPathIndex());
                 nextNode = findNodeForStateNumber(nextState.stateNumber);
                 if(nextNode == null) {
                     // A path can start from anywhere in the graph. It might happen
@@ -259,7 +259,7 @@ public class GGraphGroup extends GGraphAbstract {
                 node = nextNode;
             }
 
-            nextState = (NFAState)path.get(getPathIndex());
+            nextState = path.get(getPathIndex());
             nextNode = findNodeForStateNumber(nextState.stateNumber);
 
             GNode externalNode = null;
@@ -287,7 +287,7 @@ public class GGraphGroup extends GGraphAbstract {
                     if(getPathIndex() >= path.size()) {
                         nextNode = findNodeForStateNumber(t.target.stateNumber);
                     } else {
-                        nextState = (NFAState)path.get(getPathIndex());
+                        nextState = path.get(getPathIndex());
 
                         if(t.target.stateNumber == nextState.stateNumber) {
                             nextNode = findNodeForStateNumber(t.target.stateNumber);

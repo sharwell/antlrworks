@@ -1,5 +1,6 @@
 package org.antlr.works.editor;
 
+import org.antlr.tool.Rule;
 import org.antlr.works.ate.syntax.generic.ATESyntaxLexer;
 import org.antlr.works.ate.syntax.misc.ATEToken;
 import org.antlr.works.editor.idea.IdeaAction;
@@ -11,8 +12,8 @@ import org.antlr.xjlib.foundation.XJUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 /*
 
 [The "BSD licence"]
@@ -210,7 +211,7 @@ public class EditorInspector {
             return;
 
         for (ElementRule rule : rules) {
-            Set rulesSet = rule.getLeftRecursiveRulesSet();
+            Collection<? extends Rule> rulesSet = rule.getLeftRecursiveRulesSet();
             if (rulesSet == null || rulesSet.size() < 2)
                 continue;
 

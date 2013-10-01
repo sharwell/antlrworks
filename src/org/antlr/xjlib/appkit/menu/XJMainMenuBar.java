@@ -386,10 +386,10 @@ public class XJMainMenuBar implements XJMenuItemDelegate {
     }
 
     private void buildWindowMenu_() {
-        Iterator iterator = XJApplication.shared().getWindows().iterator();
+        Iterator<XJWindow> iterator = XJApplication.shared().getWindows().iterator();
         int count = 0;
         while(iterator.hasNext()) {
-            XJWindow window = (XJWindow)iterator.next();
+            XJWindow window = iterator.next();
             if(window.shouldAppearsInWindowMenu()) {
                 XJMenuItemCheck item = buildMenuItemCheck(window.getTitle(), count<10?KeyEvent.VK_0+count:-1, MI_WINDOW+count);
                 item.setSelected(window.isActive());

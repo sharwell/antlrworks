@@ -106,7 +106,7 @@ public class XJUtils {
         return getPathByDeletingLastComponent(path, File.separator);
     }
 
-    public static List sortedFilesInPath(String path) {
+    public static List<File> sortedFilesInPath(String path) {
         File[] files = new File(path).listFiles();
         List<File> sortedFiles = Arrays.asList(files);
         Collections.sort(sortedFiles);

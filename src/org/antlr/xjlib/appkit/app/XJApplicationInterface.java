@@ -49,7 +49,7 @@ public interface XJApplicationInterface {
 
     XJDocument newDocument();
     XJWindow getWindowContainingDocumentForPath(String path);
-    List getDocumentExtensions();
+    List<List<String>> getDocumentExtensions();
 
     void addWindow(XJWindow window);
     void removeWindow(XJWindow window);
@@ -66,7 +66,7 @@ public interface XJApplicationInterface {
     void addRecentFile(String path);
     void removeRecentFile(String file);
     void clearRecentFiles();
-    List recentFiles();
+    List<String> recentFiles();
 
     void performQuit();
 

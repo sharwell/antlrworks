@@ -38,6 +38,7 @@ import org.antlr.works.prefs.AWPrefs;
 import org.antlr.works.utils.Console;
 import org.antlr.works.utils.ErrorListener;
 import org.antlr.works.visualization.graphics.GFactory;
+import org.antlr.works.visualization.graphics.graph.GGraphAbstract;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class VisualDrawing extends ATEThread {
     protected ElementRule threadRule;
     protected ElementRule threadLastProcessedRule;
 
-    protected Map<ElementRule,List> cacheGraphs = new HashMap<ElementRule, List>();
+    protected Map<ElementRule, List<? extends GGraphAbstract>> cacheGraphs = new HashMap<ElementRule, List<? extends GGraphAbstract>>();
 
     public VisualDrawing(SyntaxDiagramTab syntaxDiagramTab) {
         this.syntaxDiagramTab = syntaxDiagramTab;
@@ -93,7 +94,7 @@ public class VisualDrawing extends ATEThread {
      * Tries to refresh the current graph in cache. If the graphs are not in cache, return false.
      */
     public synchronized boolean refresh() {
-        final List graphs = cacheGraphs.get(threadLastProcessedRule);
+        final List<? extends GGraphAbstract> graphs = cacheGraphs.get(threadLastProcessedRule);
         if(graphs == null || graphs.isEmpty()) {
             return false;
         } else {
@@ -111,7 +112,7 @@ public class VisualDrawing extends ATEThread {
         }
     }
 
-    private void refreshVisualPanel(List graphs) {
+    private void refreshVisualPanel(List<? extends GGraphAbstract> graphs) {
         syntaxDiagramTab.panel.setRule(threadLastProcessedRule);
         syntaxDiagramTab.panel.setGraphs(graphs);
         syntaxDiagramTab.panel.update();
@@ -183,7 +184,7 @@ public class VisualDrawing extends ATEThread {
     }
 
     protected synchronized void createGraphsForRule(ElementRule rule) throws Exception {
-        List graphs = cacheGraphs.get(rule);
+        List<? extends GGraphAbstract> graphs = cacheGraphs.get(rule);
         if(graphs == null) {
             factory.setOptimize(!AWPrefs.getDebugDontOptimizeNFA());
             factory.setConsole(syntaxDiagramTab.getConsole());

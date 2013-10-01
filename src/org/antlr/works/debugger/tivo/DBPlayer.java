@@ -88,13 +88,13 @@ public class DBPlayer {
         eventPlayedCount = 0;
     }
 
-    public void playEvents(List events, int lastEventPosition, boolean reset) {
+    public void playEvents(List<? extends DBEvent> events, int lastEventPosition, boolean reset) {
         if(reset)
             resetPlayEvents(false);
 
         int lastIndex = lastEventPosition - 1;
         for(int i=eventPlayedCount; i< lastEventPosition; i++) {
-            DBEvent event = (DBEvent)events.get(i);
+            DBEvent event = events.get(i);
 
             try {
                 playEvent(event);

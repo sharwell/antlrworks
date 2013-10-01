@@ -105,12 +105,11 @@ public class EditorFoldingManager extends ATEFoldingManager {
         }
     }
 
-    public ATEFoldingEntity getEntityForIdentifier(List entities, String identifier) {
+    public ATEFoldingEntity getEntityForIdentifier(List<? extends ATEFoldingEntity> entities, String identifier) {
         if(entities == null || entities.isEmpty())
             return null;
         // optimize using a map ?
-        for (Object entity1 : entities) {
-            ATEFoldingEntity entity = (ATEFoldingEntity) entity1;
+        for (ATEFoldingEntity entity : entities) {
             if (entity.foldingEntityID().equals(identifier))
                 return entity;
         }
