@@ -330,11 +330,11 @@ public class DialogReports extends XJDialog {
         			new ColumnSpec[] {
         				FormFactory.DEFAULT_COLSPEC,
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-        				new ColumnSpec("max(min;30dlu)"),
+        				ColumnSpec.decode("max(min;30dlu)"),
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
         				FormFactory.RELATED_GAP_COLSPEC,
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-        				new ColumnSpec("max(min;30dlu):grow"),
+        				ColumnSpec.decode("max(min;30dlu):grow"),
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
         				new ColumnSpec(ColumnSpec.FILL, Sizes.DEFAULT, FormSpec.DEFAULT_GROW)
         			},

@@ -128,7 +128,7 @@ public class DialogGenerate extends XJDialog {
         			new ColumnSpec[] {
         				FormFactory.DEFAULT_COLSPEC,
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-        				new ColumnSpec("max(min;200dlu):grow"),
+        				ColumnSpec.decode("max(min;200dlu):grow"),
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
         				FormFactory.DEFAULT_COLSPEC
         			},

@@ -163,9 +163,9 @@ public class DialogPersonalInfo extends XJDialog {
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
         				new ColumnSpec(Sizes.dluX(50)),
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-        				new ColumnSpec("max(min;100dlu):grow"),
+        				ColumnSpec.decode("max(min;100dlu):grow"),
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-        				new ColumnSpec("max(default;30dlu)"),
+        				ColumnSpec.decode("max(default;30dlu)"),
         				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
         				FormFactory.DEFAULT_COLSPEC
         			},

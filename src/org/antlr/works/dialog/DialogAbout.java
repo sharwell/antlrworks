@@ -167,13 +167,13 @@ public class DialogAbout extends XJPanel {
         		FormFactory.LINE_GAP_ROWSPEC,
         		new RowSpec(RowSpec.BOTTOM, Sizes.DEFAULT, FormSpec.NO_GROW),
         		FormFactory.LINE_GAP_ROWSPEC,
-        		new RowSpec("top:max(default;15dlu)"),
+        		RowSpec.decode("top:max(default;15dlu)"),
         		FormFactory.LINE_GAP_ROWSPEC,
-        		new RowSpec("bottom:max(default;10dlu)"),
+        		RowSpec.decode("bottom:max(default;10dlu)"),
         		FormFactory.LINE_GAP_ROWSPEC,
-        		new RowSpec("top:max(default;10dlu)"),
+        		RowSpec.decode("top:max(default;10dlu)"),
         		FormFactory.LINE_GAP_ROWSPEC,
-        		new RowSpec("fill:max(default;60dlu):grow"),
+        		RowSpec.decode("fill:max(default;60dlu):grow"),
         		FormFactory.LINE_GAP_ROWSPEC,
         		new RowSpec(Sizes.dluY(10))
         	}));
