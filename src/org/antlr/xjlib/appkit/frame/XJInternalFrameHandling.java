@@ -24,6 +24,8 @@ public class XJInternalFrameHandling implements XJMenuBarDelegate {
         switch(tag) {
             case XJMainMenuBar.MI_NEW:
                 item.setTitle(XJLocalizable.getXJString("New")+((XJApplication.shared().getDocumentExtensions().size()>1)?"...":""));
+                item.setEnabled(true);
+                break;
 
             case XJMainMenuBar.MI_OPEN:
             case XJMainMenuBar.MI_RECENT_FILES:
