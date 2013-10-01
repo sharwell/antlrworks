@@ -31,6 +31,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.antlr.xjlib.appkit.app;
 
+import org.antlr.works.utils.Utils;
 import org.antlr.xjlib.appkit.frame.XJDialog;
 import org.antlr.xjlib.appkit.swing.XJColorChooser;
 
@@ -103,7 +104,7 @@ public class XJPreferences {
     }
 
     public List<String> getList(String key) {
-        return (List<String>)getObject(key, null);
+        return Utils.castList((List<?>)getObject(key, null), String.class);
     }
 
     public void setObject(String key, Object obj) {

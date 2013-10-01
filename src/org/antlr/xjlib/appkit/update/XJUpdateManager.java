@@ -31,6 +31,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.antlr.xjlib.appkit.update;
 
+import org.antlr.works.utils.Utils;
 import org.antlr.xjlib.appkit.app.XJApplication;
 import org.antlr.xjlib.appkit.frame.XJDialog;
 import org.antlr.xjlib.appkit.utils.XJAlert;
@@ -58,7 +59,7 @@ public class XJUpdateManager {
 
     protected Container parent;
     protected XJUpdateManagerDelegate delegate;
-    protected Map updateInfoMap;
+    protected Map<String, Object> updateInfoMap;
 
     protected boolean cancelDownload = false;
 
@@ -199,7 +200,7 @@ public class XJUpdateManager {
 
         XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(is));
         try {
-            updateInfoMap = (Map)decoder.readObject();
+            updateInfoMap = Utils.castMap((Map<?, ?>)decoder.readObject(), String.class, Object.class);
         } catch(Exception e) {
             XJAlert.display(getParentContainer(), "Update Manager", "Cannot check the update because:\n"+e);
             return;            

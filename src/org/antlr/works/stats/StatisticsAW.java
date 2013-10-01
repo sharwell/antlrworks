@@ -32,6 +32,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.antlr.works.stats;
 
 import org.antlr.works.prefs.AWPrefs;
+import org.antlr.works.utils.Utils;
 import org.antlr.xjlib.appkit.app.XJApplication;
 
 import java.util.*;
@@ -255,7 +256,7 @@ public class StatisticsAW {
     protected synchronized Map<Integer,Integer> getEvents() {
         if(events == null) {
             try {
-                events = (Map<Integer,Integer>)AWPrefs.getPreferences().getObject(PREF_KEY, null);
+                events = Utils.castMap((Map<?, ?>)AWPrefs.getPreferences().getObject(PREF_KEY, null), Integer.class, Integer.class);
             } catch(Exception e) {
                 events = null;
                 System.err.println("Statistics: "+e);

@@ -31,6 +31,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.antlr.xjlib.appkit.document;
 
+import org.antlr.works.utils.Utils;
 import org.antlr.xjlib.foundation.XJObject;
 
 import java.io.*;
@@ -102,7 +103,7 @@ public class XJData extends XJObject {
 
     public void readData(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.readInt();
-        dictionary = (HashMap<String,Object>)ois.readObject();
+        dictionary = Utils.castMap((Map<?, ?>)ois.readObject(), String.class, Object.class);
         dataChanged();
     }
 

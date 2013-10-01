@@ -66,11 +66,11 @@ public class StatisticsReporter {
     }
 
     public String fetchIDFromServer() {
-        Map<?, ?> info = AWPrefs.getPersonalInfo();
+        Map<String, Object> info = AWPrefs.getPersonalInfo();
         /** Send null info if we cannot get the personal info */
         if(info == null) {
             System.err.println("No personal info available. Sending blank data to request a new ID from ANTLR's server.");
-            info = new HashMap();
+            info = new HashMap<String, Object>();
         }
 
         StringBuilder s = new StringBuilder(URL_REGISTER);

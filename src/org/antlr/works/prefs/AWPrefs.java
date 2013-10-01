@@ -31,6 +31,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package org.antlr.works.prefs;
 
+import org.antlr.works.utils.Utils;
 import org.antlr.xjlib.appkit.app.XJApplication;
 import org.antlr.xjlib.appkit.app.XJPreferences;
 import org.antlr.xjlib.foundation.XJSystem;
@@ -498,12 +499,12 @@ public class AWPrefs {
         return getPreferences().getString(PREF_SERVER_ID, null);
     }
 
-    public static void setPersonalInfo(Map<String,Object> info) {
+    public static void setPersonalInfo(Map<String, Object> info) {
         getPreferences().setObject(PREF_PERSONAL_INFO, info);
     }
 
-    public static Map<?, ?> getPersonalInfo() {
-        return (Map<?, ?>)getPreferences().getObject(PREF_PERSONAL_INFO, null);
+    public static Map<String, Object> getPersonalInfo() {
+        return Utils.castMap((Map<?, ?>)getPreferences().getObject(PREF_PERSONAL_INFO, null), String.class, Object.class);
     }
 
     public static boolean getPrivateMenu() {
@@ -557,7 +558,7 @@ public class AWPrefs {
     }
 
     public static List<String> getAllOpenedDocuments() {
-        return (List<String>) getPreferences().getObject(PREF_ALL_OPENED_DOCUMENTS, null);
+        return Utils.castList((List<?>)getPreferences().getObject(PREF_ALL_OPENED_DOCUMENTS, null), String.class);
     }
 
     public static void setDebuggerEOL(int index) {

@@ -6,6 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /*
 
 [The "BSD licence"]
@@ -157,4 +161,31 @@ public class Utils {
         System.arraycopy(b, 0, n, a.length, b.length);
         return n;
     }
+
+    public static <K, V> Map<K, V> castMap(Map<?, ?> map, Class<K> keyClass, Class<V> valueClass) {
+        if (map == null) {
+            return null;
+        }
+
+        Map<K, V> result = new HashMap<K, V>();
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            result.put(keyClass.cast(entry.getKey()), valueClass.cast(entry.getValue()));
+        }
+
+        return result;
+    }
+
+    public static <E> List<E> castList(List<?> list, Class<E> clazz) {
+        if (list == null) {
+            return null;
+        }
+
+        List<E> result = new ArrayList<E>();
+        for (Object item : list) {
+            result.add(clazz.cast(item));
+        }
+
+        return result;
+    }
+
 }
