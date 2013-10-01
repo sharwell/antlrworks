@@ -230,6 +230,7 @@ public class DBASTModel {
         }
 
         /** Add a child */
+        @SuppressWarnings("unchecked")
         public void addChild(ASTNode node) {
             if(node.nil) {
                 /** If the child node is a nil node, add its children only */
@@ -262,6 +263,7 @@ public class DBASTModel {
         }
 
         /** Replace a child with another one */
+        @SuppressWarnings("unchecked")
         public void replaceChild(ASTNode oldNode, ASTNode newNode) {
             int index = children.indexOf(oldNode);
             children.remove(index);
