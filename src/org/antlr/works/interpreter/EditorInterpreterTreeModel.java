@@ -97,7 +97,7 @@ public class EditorInterpreterTreeModel extends DefaultTreeModel {
             return getChildCount() == 0;
         }
 
-        public Enumeration children() {
+        public Enumeration<?> children() {
             return null;
         }
 

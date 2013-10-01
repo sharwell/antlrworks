@@ -102,7 +102,7 @@ public class DBTreeNode extends AWTreeNode {
             }
         }
 
-        for(Enumeration childrenEnumerator = children(); childrenEnumerator.hasMoreElements(); ) {
+        for(Enumeration<?> childrenEnumerator = children(); childrenEnumerator.hasMoreElements(); ) {
             DBTreeNode node = (DBTreeNode) childrenEnumerator.nextElement();
             DBTreeNode candidate = node.findNodeWithToken(t, lastNodeSoFar);
             if(candidate != null)

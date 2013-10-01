@@ -655,10 +655,10 @@ public class XJGraphics2DPS extends Graphics2D {
         return null;
     }
 
-    public void setRenderingHints(Map hints) {
+    public void setRenderingHints(Map<?, ?> hints) {
     }
 
-    public void addRenderingHints(Map hints) {
+    public void addRenderingHints(Map<?, ?> hints) {
     }
 
     public RenderingHints getRenderingHints() {

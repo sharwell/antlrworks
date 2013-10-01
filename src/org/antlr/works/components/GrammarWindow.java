@@ -1129,7 +1129,7 @@ public class GrammarWindow
         interpreterTab.updateIgnoreTokens(getRules());
     }
 
-    public JPopupMenu rulesGetContextualMenu(List selectedObjects) {
+    public JPopupMenu rulesGetContextualMenu(List<?> selectedObjects) {
         if(selectedObjects.isEmpty())
             return null;
 

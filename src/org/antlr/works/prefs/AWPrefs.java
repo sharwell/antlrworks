@@ -502,8 +502,8 @@ public class AWPrefs {
         getPreferences().setObject(PREF_PERSONAL_INFO, info);
     }
 
-    public static Map getPersonalInfo() {
-        return (Map)getPreferences().getObject(PREF_PERSONAL_INFO, null);
+    public static Map<?, ?> getPersonalInfo() {
+        return (Map<?, ?>)getPreferences().getObject(PREF_PERSONAL_INFO, null);
     }
 
     public static boolean getPrivateMenu() {

@@ -467,7 +467,7 @@ public class EditorRules implements XJTreeDelegate {
         if(rule == null)
             return;
 
-        Enumeration enumeration = rulesTreeRootNode.depthFirstEnumeration();
+        Enumeration<?> enumeration = rulesTreeRootNode.depthFirstEnumeration();
         while(enumeration.hasMoreElements()) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)enumeration.nextElement();
             RuleTreeUserObject n = (RuleTreeUserObject)node.getUserObject();
@@ -556,7 +556,7 @@ public class EditorRules implements XJTreeDelegate {
 
     public void saveExpandedNodes() {
         rulesTreeExpandedNodes.clear();
-        Enumeration e = rulesTreeRootNode.depthFirstEnumeration();
+        Enumeration<?> e = rulesTreeRootNode.depthFirstEnumeration();
         while(e.hasMoreElements()) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)e.nextElement();
             if(!node.isLeaf() && !node.isRoot() && rulesTree.isExpanded(new TreePath(node.getPath()))) {
@@ -575,7 +575,7 @@ public class EditorRules implements XJTreeDelegate {
     }
 
     public DefaultMutableTreeNode findNodeWithGroupName(String groupName) {
-        Enumeration e = rulesTreeRootNode.depthFirstEnumeration();
+        Enumeration<?> e = rulesTreeRootNode.depthFirstEnumeration();
         while(e.hasMoreElements()) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)e.nextElement();
             RuleTreeUserObject n = (RuleTreeUserObject)node.getUserObject();
@@ -586,7 +586,7 @@ public class EditorRules implements XJTreeDelegate {
     }
 
     public DefaultMutableTreeNode findNodeWithRuleName(String ruleName) {
-        Enumeration e = rulesTreeRootNode.depthFirstEnumeration();
+        Enumeration<?> e = rulesTreeRootNode.depthFirstEnumeration();
         while(e.hasMoreElements()) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)e.nextElement();
             RuleTreeUserObject n = (RuleTreeUserObject)node.getUserObject();
