@@ -52,6 +52,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ExportMenu {
@@ -103,11 +104,19 @@ public class ExportMenu {
     }
 
     public void exportAllRules(boolean asImage) {
-        List<String> extensions = null;
+        List<String> descriptions = null;
+        List<List<String>> extensions = null;
         if(asImage) {
-            extensions = lookupAvailableImageFormat();            
+            descriptions = lookupAvailableImageFormat();
+            if (descriptions != null) {
+                extensions = new ArrayList<List<String>>();
+                for (String extension : descriptions) {
+                    extensions.add(Collections.singletonList(extension));
+                }
+            }
         }
-        if(!XJFileChooser.shared().displayChooseDirectory(window.getJavaContainer(), extensions, extensions, !asImage)) {
+
+        if(!XJFileChooser.shared().displayChooseDirectory(window.getJavaContainer(), extensions, descriptions, !asImage)) {
             return;
         }
 
@@ -142,8 +151,16 @@ public class ExportMenu {
     }
 
     public void saveImageToDisk(BufferedImage image) {
-        List<String> extensions = lookupAvailableImageFormat();
-        if(XJFileChooser.shared().displaySaveDialog(window.getJavaContainer(), extensions, extensions, false)) {
+        List<String> descriptions = lookupAvailableImageFormat();
+        List<List<String>> extensions = null;
+        if (descriptions != null) {
+            extensions = new ArrayList<List<String>>();
+            for (String extension : descriptions) {
+                extensions.add(Collections.singletonList(extension));
+            }
+        }
+
+        if(XJFileChooser.shared().displaySaveDialog(window.getJavaContainer(), extensions, descriptions, false)) {
             String file = XJFileChooser.shared().getSelectedFilePath();
             try {
                 ImageIO.write(image, file.substring(file.lastIndexOf(".")+1), new File(file));

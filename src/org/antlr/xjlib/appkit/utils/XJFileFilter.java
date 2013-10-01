@@ -38,16 +38,16 @@ import java.util.List;
 
 public class XJFileFilter extends FileFilter {
 
-    private List exts = null;
+    private List<String> exts = null;
     private String description = null;
 
-    public static XJFileFilter createFileFilter(Object ext, String description) {
+    public static XJFileFilter createFileFilter(String ext, String description) {
+        return createFileFilter(Collections.singletonList(ext), description);
+    }
+
+    public static XJFileFilter createFileFilter(List<String> ext, String description) {
         XJFileFilter ff = new XJFileFilter();
-        if(ext instanceof String) {
-            ff.exts = Collections.singletonList(ext);
-        } else {
-            ff.exts = (List)ext;
-        }
+        ff.exts = ext;
         ff.description = description;
         return ff;
     }
@@ -57,8 +57,7 @@ public class XJFileFilter extends FileFilter {
     }
 
     public boolean accept(String path) {
-        for (Object ext : exts) {
-            String e = (String) ext;
+        for (String e : exts) {
             if (path.endsWith("."+e)) {
                 return true;
             }
@@ -67,7 +66,7 @@ public class XJFileFilter extends FileFilter {
     }
 
     public String getDefaultExtension() {
-        return (String) exts.get(0);
+        return exts.get(0);
     }
 
     public String getDescription() {

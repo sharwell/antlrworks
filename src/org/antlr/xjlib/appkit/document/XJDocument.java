@@ -54,7 +54,7 @@ public class XJDocument extends XJObject {
     protected String documentTitle = XJLocalizable.getXJString("DocUntitled");
     protected String documentPath;
 
-    protected List documentFileExts;
+    protected List<String> documentFileExts;
     protected String documentFileExtDescription;
 
     protected boolean dirty = false;
@@ -179,7 +179,7 @@ public class XJDocument extends XJObject {
         return XJUtils.getPathByDeletingPathExtension(getDocumentName());
     }
 
-    public void setDocumentFileType(List ext, String description) {
+    public void setDocumentFileType(List<String> ext, String description) {
         documentFileExts = ext;
         documentFileExtDescription = description;
     }

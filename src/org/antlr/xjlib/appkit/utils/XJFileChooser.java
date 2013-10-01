@@ -69,14 +69,14 @@ public class XJFileChooser {
     }
 
     public boolean displayOpenDialog(Component parent, String extension, String description, boolean multiple) {
-        return displayOpenDialog(parent, Collections.singletonList(extension), Collections.singletonList(description), multiple);
+        return displayOpenDialog(parent, Collections.singletonList(extension), description, multiple);
     }
 
-    public boolean displayOpenDialog(Component parent, List extensions, String description, boolean multiple) {
+    public boolean displayOpenDialog(Component parent, List<String> extensions, String description, boolean multiple) {
         return displayOpenDialog(parent, Collections.singletonList(extensions), Collections.singletonList(description), multiple);
     }
 
-    public boolean displayOpenDialog(Component parent, List extensions, List<String> descriptions, boolean multiple) {
+    public boolean displayOpenDialog(Component parent, List<List<String>> extensions, List<String> descriptions, boolean multiple) {
         if(parent != null)
             parent = XJDialog.resolveOwner(parent.getParent());
 
@@ -144,15 +144,15 @@ public class XJFileChooser {
 
     public boolean displaySaveDialog(Component parent, String extension, String extensionDescription, boolean acceptAll) {
         return displaySaveDialog(parent, Collections.singletonList(extension),
-                Collections.singletonList(extensionDescription), acceptAll);
+                extensionDescription, acceptAll);
     }
 
-    public boolean displaySaveDialog(Component parent, List extensions, String extensionDescription, boolean acceptAll) {
+    public boolean displaySaveDialog(Component parent, List<String> extensions, String extensionDescription, boolean acceptAll) {
         return displaySaveDialog(parent, Collections.singletonList(extensions),
                 Collections.singletonList(extensionDescription), acceptAll);
     }
 
-    public boolean displaySaveDialog(Component parent, List extensions, List<String> descriptions, boolean acceptAll) {
+    public boolean displaySaveDialog(Component parent, List<List<String>> extensions, List<String> descriptions, boolean acceptAll) {
         if(parent != null)
             parent = XJDialog.resolveOwner(parent.getParent());
 
@@ -189,7 +189,7 @@ public class XJFileChooser {
         return displayChooseDirectory(parent, null, null, true);
     }
 
-    public boolean displayChooseDirectory(Component parent, List extensions, List<String> descriptions, boolean acceptAll) {
+    public boolean displayChooseDirectory(Component parent, List<List<String>> extensions, List<String> descriptions, boolean acceptAll) {
         if(parent != null)
             parent = XJDialog.resolveOwner(parent.getParent());
 
@@ -233,7 +233,7 @@ public class XJFileChooser {
         return result;
     }
 
-    private String getExtension(List extensions, JFileChooser chooser) {
+    private String getExtension(List<List<String>> extensions, JFileChooser chooser) {
         if(extensions != null && extensions.size() >= 0) {
             FileFilter ff = chooser.getFileFilter();
             if(ff instanceof XJFileFilter) {
@@ -245,7 +245,7 @@ public class XJFileChooser {
         return XJUtils.getPathExtension(selectedFilePath);
     }
 
-    private void applyExtensions(List extensions, JFileChooser chooser, boolean acceptAll, List<String> descriptions) {
+    private void applyExtensions(List<List<String>> extensions, JFileChooser chooser, boolean acceptAll, List<String> descriptions) {
         if(extensions == null || extensions.size() == 0)
             chooser.setAcceptAllFileFilterUsed(acceptAll);
         else {
